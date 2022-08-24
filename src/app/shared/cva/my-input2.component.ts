@@ -34,10 +34,11 @@ const ALPHA_NUMERIC_REGEX = /^([A-Za-z]|[0-9]|_)+$/;
      >
    </div>
    
-   <pre>{{ngControl?.errors | json}}</pre>
+   <!--<pre>{{ngControl?.errors | json}}</pre>-->
   `,
   providers: [
-  /*  { provide: NG_VALIDATORS, useExisting: forwardRef(() => MyInput2Component), multi: true}*/
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MyInput2Component), multi: true},
+    { provide: NG_VALIDATORS, useExisting: forwardRef(() => MyInput2Component), multi: true}
   ]
 })
 export class MyInput2Component implements ControlValueAccessor, Validator {
@@ -46,9 +47,12 @@ export class MyInput2Component implements ControlValueAccessor, Validator {
   @Input() alphaNumericOnly: boolean = false;
   input = new FormControl()
   onTouch!: () => void;
+  ngControl!: NgControl;
 
-  constructor(public ngControl: NgControl) {
-    ngControl.valueAccessor = this;
+  constructor( private inj: Injector) {}
+
+  ngOnInit() {
+    this.ngControl = this.inj.get(NgControl)
   }
 
   registerOnChange(fn: any): void {
@@ -72,6 +76,7 @@ export class MyInput2Component implements ControlValueAccessor, Validator {
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
+    console.log(c.value, this.alphaNumericOnly)
     if (
       this.alphaNumericOnly &&
       c.value &&

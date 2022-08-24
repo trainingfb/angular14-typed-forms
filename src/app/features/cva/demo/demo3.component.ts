@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-demo3',
   template: `
     <p>
-      demo3 works!
+      demo3 works! (TODO)
     </p>
   `,
   styles: [

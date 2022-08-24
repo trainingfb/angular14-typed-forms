@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { AbstractControl, FormBuilder, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-demo6',
@@ -13,6 +13,7 @@ import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn,
         
         <hr>
         <pre>{{form.get('passwords')?.errors | json}}</pre>
+        <pre>{{form.get('passwords.password1')?.errors | json}}</pre>
         <pre>{{form.get('passwords.password2')?.errors | json}}</pre>
       </div>
       <button [disabled]="form.invalid">SEND</button>
@@ -45,10 +46,10 @@ export class Demo6Component {
 
 export function passwordMatch(p1: string, p2: string): ValidatorFn {
   return (g: AbstractControl) => {
-    console.log('ciao', g.get(p1)?.value, g.get(p2)?.value)
+    // console.log('passwords', g.get(p1)?.value, g.get(p2)?.value)
 
     if (g.get(p1)?.value !== g.get(p2)?.value) {
-      // Ser error on pass 2
+      // Ser error on password2 formControl
       g.get(p2)?.setErrors({ ...g.get(p2)?.errors, passwordDoesNotMatch: true})
       // set error on group
       return { passwordsDoesNotMatch: true };

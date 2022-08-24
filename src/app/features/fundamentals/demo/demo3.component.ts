@@ -35,7 +35,7 @@ export class Demo3Component {
       Validators.required, Validators.minLength(3),
     ]),
     vat: new FormControl('', {
-      validators: [Validators.required, Validators.minLength(3), vatValidator],
+      validators: [Validators.required, Validators.minLength(3), alphaNumericValidator],
       nonNullable: true
     })
   })*/

@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 @Component({
   selector: 'app-demo5',
   template: `
-    <h1>Custom Conditional Validator</h1>
+    <h1>Nested Form Group</h1>
     
     <form [formGroup]="form" (submit)="save()">
       <input formControlName="orderNumber" type="text" class="form-control" placeholder="n° order"
@@ -34,6 +34,7 @@ import { FormBuilder, Validators } from '@angular/forms';
         >
       </div>
       
+      <button (click)="resetForm()">Reset</button>
       <button type="submit" [disabled]="form.invalid">SEND</button>
     </form>
     <pre>{{form.value | json}}</pre>
@@ -42,7 +43,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 export class Demo5Component  {
   form = this.fb.nonNullable.group({
     orderNumber: ['', Validators.required],
-    user: this.fb.group({
+    user: this.fb.nonNullable.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
     }),
@@ -54,8 +55,11 @@ export class Demo5Component  {
   })
   constructor(private fb: FormBuilder) { }
 
-
   save() {
     console.log(this.form.value)
+  }
+
+  resetForm() {
+    this.form.reset()
   }
 }
